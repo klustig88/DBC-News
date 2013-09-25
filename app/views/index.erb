@@ -1,6 +1,18 @@
 <h1>DBC News!</h1>
 
-<h2>  <a href="/post">post</a> </h2>
+<% @posts.each do |p| %>
+<h4> <a href="/<%=p.id%>"><%= p.title %></a> | <a href="<%=p.url%>"><%=  p.url %> </a> | <%= p.created_at %></h4> 
+<%# @user = %>
+<%# writer = @user.find_by_id(@user) %>
+
+<%= p.user.username  %>
+
+<% end %> 
+
+
+
+
+<!-- <h2>  <a href="/post">post</a> </h2>
   <ul>
     <li> <a href="/">username</a> </li>
     <li>when posted</li>
@@ -18,7 +30,7 @@
     <li> <a href="/">username</a> </li>
     <li>when posted</li>
     <li> <a href="/comments">comments</a></li>
-  </ul>
+  </ul> -->
 
   <a href="/login">login or signup</a>
   <a href="/addpost">Create Posts</a>

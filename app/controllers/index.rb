@@ -1,4 +1,6 @@
 get '/' do 
+  @posts = Post.all
+  @users = User.all
   erb :index
 end
 
@@ -29,11 +31,8 @@ end
 
 get '/:post_id' do 
   @post = Post.find_by_id(params[:post_id])
-  if @post.user_id == nil
-    @user = User.find_by_id(2)
-  else
+  @comments = @post.comments
     @user = User.find_by_id(@post.user_id)
-  end
   erb :post
 end
 
@@ -67,7 +66,18 @@ end
 
 post '/addpost' do
   @post = Post.create(title: params[:title], body: params[:body], url: params[:url], user_id: session[:id])
+  if @post.user_id == nil
+   @user = User.find_by_username('anonymous')
+   @post.user_id = @user.id
+   @post.save
+  end
   redirect to ("/#{@post.id}")
+end
+
+post '/addcomment/:post_id' do 
+  @comment = Comment.create(banter: params[:banter], user_id: session[:id], post_id: params[:post_id])
+  @post = Post.find_by_id(params[:post_id])
+  redirect to "/#{@post.id}"
 end
 
 

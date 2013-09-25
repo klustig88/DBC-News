@@ -1,3 +1,4 @@
+<a href="/">home</a>
 <h1> Title: <%= @post.title %></h1>
 <h2>Posted by <%= @user.username %></h2>
 
@@ -6,7 +7,11 @@
 <h3> Article: <%= @post.body %></h3>
 
 <h2>comments below</h2>
-  <form action="/addcomment" method="POST">
+  <form action="/addcomment/<%= @post.id %>" method="POST">
     Body <textarea type='text' name='banter'></textarea><br>
   <input type='submit' value='submit'>
 </form>
+
+   <% @comments.each do |c| %>
+ <h2><%= c.banter %> </h2>
+   <% end %>
