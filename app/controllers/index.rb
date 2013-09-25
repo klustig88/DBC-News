@@ -8,12 +8,9 @@ get '/comments' do
   erb :comments
 end
 
-get '/user/posts' do 
-  erb :user_posts
-end
-
-get '/user/comments' do 
-  erb :user_comments
+get '/userpage/:username' do
+  @user = User.find_by_username(params[:username])
+  erb :user
 end
 
 get '/login' do 
@@ -29,13 +26,6 @@ get '/logout' do
   redirect to ('/')
 end
 
-get '/:post_id' do 
-  @post = Post.find_by_id(params[:post_id])
-  @comments = @post.comments
-    @user = User.find_by_id(@post.user_id)
-  erb :post
-end
-
 get '/:username' do 
   if session[:id]
     @user = User.find_by_username(params[:username])
@@ -44,6 +34,15 @@ get '/:username' do
     redirect to ('/')
   end
 end
+
+get '/:post_id' do 
+  @post = Post.find_by_id(params[:post_id])
+  @comments = @post.comments
+    @user = User.find_by_id(@post.user_id)
+  erb :post
+end
+
+
 
 ####------------------------POST
 
