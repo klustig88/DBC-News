@@ -1,11 +1,16 @@
 <h1>DBC News!</h1>
 
 <% @posts.each do |p| %>
-<h4> <a href="/<%=p.id%>"><%= p.title %></a> | <a href="<%=p.url%>"><%=  p.url %> </a> | <%= p.created_at %></h4> 
+<h4> <a href="/<%=p.id%>"><%= p.title %></a> | <a href="<%=p.url%>"><%=  p.url %> </a> | <%= p.created_at %> | rating: <%= p.rating  %></h4> 
 <%# @user = %>
 <%# writer = @user.find_by_id(@user) %>
 
-<a href="/userpage/<%=p.user.username%>"><%=p.user.username%></a> 
+<a href="/userpage/<%=p.user.username%>"><%=p.user.username%></a>
+
+
+<form action="/upvote/<%=p.id%>" method="POST">
+    <input type="submit" name="submit" id="submit">
+</form> 
 
 <% end %> 
 

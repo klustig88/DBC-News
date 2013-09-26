@@ -4,6 +4,7 @@ class CreatePosts < ActiveRecord::Migration
       t.belongs_to :user
       t.string :url
       t.string :title
+      t.integer :rating, default: 0
       t.text :body
       t.timestamps
     end

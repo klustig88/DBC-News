@@ -26,7 +26,7 @@ get '/logout' do
   redirect to ('/')
 end
 
-get '/:username' do 
+get '/user/:username' do 
   if session[:id]
     @user = User.find_by_username(params[:username])
     erb :user
@@ -35,7 +35,7 @@ get '/:username' do
   end
 end
 
-get '/:post_id' do 
+get '/post/:post_id' do 
   @post = Post.find_by_id(params[:post_id])
   @comments = @post.comments
     @user = User.find_by_id(@post.user_id)
@@ -51,7 +51,7 @@ post '/login' do
   # if @validate 
    @current_user = User.find_by_username(params[:username])
     session[:id] = @current_user.id
-    redirect to ("/#{@current_user.username}")
+    redirect to ("/user/#{@current_user.username}")
   # else
   #   redirect to ('/')
   # end
@@ -70,13 +70,22 @@ post '/addpost' do
    @post.user_id = @user.id
    @post.save
   end
-  redirect to ("/#{@post.id}")
+  redirect to ("/post/#{@post.id}")
 end
 
 post '/addcomment/:post_id' do 
   @comment = Comment.create(banter: params[:banter], user_id: session[:id], post_id: params[:post_id])
   @post = Post.find_by_id(params[:post_id])
-  redirect to "/#{@post.id}"
+  redirect to "/post/#{@post.id}"
+end
+
+
+
+post '/upvote/:id' do 
+  @post = Post.find_by_id(params[:id])
+  @post.rating += 1
+  @post.save
+  redirect to "/"
 end
 
 
